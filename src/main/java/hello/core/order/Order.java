@@ -15,6 +15,11 @@ public class Order {
         this.itemPrice = itemPrice;
         this.discountPrice = discountPrice;
     }
+
+    /**
+     * 할인이 적용된 실제 결제 금액
+     * @return 실제 결제 금액
+     */
     public int calculatePrice() { // 예) 원가 10000원 할인가 1000원 일때 실제 결제금액은 9000원
         return itemPrice - discountPrice;
     }
