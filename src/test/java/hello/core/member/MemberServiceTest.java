@@ -1,11 +1,20 @@
 package hello.core.member;
 
+import hello.core.AppConfig;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MemberServiceTest {
 
-    MemberService memberService = new MemberServiceImpl(); // 의존관계가 인터페이스 뿐만 아니라 구현까지 모두 의존하는 문제점 발생 (MemberService , MemberServiceImpl)
+//    MemberService memberService = new MemberServiceImpl(memberRepository); // 의존관계가 인터페이스 뿐만 아니라 구현까지 모두 의존하는 문제점 발생 (MemberService , MemberServiceImpl)
+    MemberService memberService;
+
+    @BeforeEach
+    public void beforeEach() {
+        AppConfig appconfig = new AppConfig();
+        memberService = appconfig.memberService();
+    }
     @Test
     void join() {
         //given - ~가 주어지고
