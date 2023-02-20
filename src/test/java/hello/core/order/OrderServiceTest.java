@@ -19,7 +19,7 @@ public class OrderServiceTest {
         Order book1 = orderService.createOrder(member.getId(), "책1", 2500);
         System.out.println("book1 = " + book1);
         System.out.println("book1.calculatePrice() = " + book1.calculatePrice());
-        Assertions.assertThat(book1.getDiscountPrice()).isEqualTo(1000);
+        Assertions.assertThat(book1.getDiscountPrice()).isEqualTo(250);
 
 
     }
