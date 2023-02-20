@@ -31,7 +31,7 @@ public class AppConfig {
      * @return Discount 할인정책 객체 반환 
      */
     public DiscountPolicy discountPolicy() {
-//        return new FixDiscountPolicy();
+//        return new FixDiscountPolicy(); // 고정
         return new RateDiscountPolicy();
     }
     
