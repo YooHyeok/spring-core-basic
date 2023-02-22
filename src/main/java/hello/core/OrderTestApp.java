@@ -20,7 +20,8 @@ public class OrderTestApp {
 //        OrderService orderService = appConfig.orderService();
 
         /**
-         * ApplicationContext : 스프링 컨테이너
+         * ApplicationContext : 스프링 컨테이너 인터페이스
+         * AnnotationConfigApplicationContext : 애노테이션 기반의 자바 설정 클래스로 스프링컨테이너를 만든다.
          * 기존 AppConfing 설정파일은 개발자가 직접 객체를 생성하여 DI를 했지만, 해당 파일을 스프링 컨테이너의 설정파일로 등록한다.
          * 설정파일에 @Bean으로 등록된 빈을 스프링 컨테이너에 등록이되고, 등록된 빈을 꺼내어 사용한다.
          */
