@@ -7,8 +7,17 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * 스프링 빈 조회
+ * 모든 빈 조회 - getBeanDefinitionNames Bean이름 배열반환
+ * config포함 등록된 애플리케이션 빈만 조회 - getBeanDefinition(Bean이름) = ROLE_APPLICATION
+ * @Component로 등록된 애플리케이션만 조회 - getBeansWithAnnotation(Component.class)
+ * └ entrySet사용 , forEach 사용
+ * 
+ */
 public class ApplicationContextInfoTest {
 
     AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class); // getBeanDefinition을 사용하려면 반환을 클래스로해야한다.
@@ -71,5 +80,22 @@ public class ApplicationContextInfoTest {
             System.out.println("name = " + key);
             System.out.println("Object = " + value);
         });
+    }
+
+    /**
+     * Iterator 사용
+     * @Component 빈만 출력하기.
+     */
+    @Test
+    @DisplayName("컴포넌트 빈 출력하기2")
+    void findComponentBean3() {
+        String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+        Map<String, Object> beansWithAnnotation = ac.getBeansWithAnnotation(Component.class);// beanDefinition : 빈에대한 메타데이터 정보
+        Iterator<Map.Entry<String, Object>> itr = beansWithAnnotation.entrySet().iterator();
+        while (itr.hasNext()) { // map객체가 비어있지 않다면 루프실행.
+            Map.Entry<String, Object> entry = itr.next();
+            System.out.println("name = " + entry.getKey());
+            System.out.println("Object = " + entry.getValue());
+        }
     }
 }
