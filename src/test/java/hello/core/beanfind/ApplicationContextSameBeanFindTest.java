@@ -59,6 +59,6 @@ public class ApplicationContextSameBeanFindTest {
             System.out.println("key = " + key + " value = " + beansOfType.get(key));
         }
         System.out.println("beansOfType = " + beansOfType);
-        assertThat(beansOfType.size()).isEqualTo(2);
+        assertThat(beansOfType.size()).isEqualTo(2); // MemberRepository 역할(부모) 타입의 Bean객체는 2개이다.
     }
 }
