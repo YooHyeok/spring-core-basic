@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 public class ApplicationContextInfoTest {
 
@@ -36,6 +39,21 @@ public class ApplicationContextInfoTest {
                 Object bean = ac.getBean(beanDefinitionName);
                 System.out.println("name = " + beanDefinitionName + " Object = " + bean);
             }
+        }
+    }
+    /**
+     * @Component 빈만 출력하기.
+     */
+    @Test
+    @DisplayName("컴포넌트 빈 출력하기")
+    void findComponentBean() {
+        String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+        Map<String, Object> beansWithAnnotation = ac.getBeansWithAnnotation(Component.class);// beanDefinition : 빈에대한 메타데이터 정보
+        for (Map.Entry<String, Object> entryBean : beansWithAnnotation.entrySet()) { // map의  key와 value를 가지는 Set 객체를 리턴
+            String beanName = entryBean.getKey();
+            Object beanObject = entryBean.getValue();
+            System.out.println("Class : " + beanObject.getClass().getCanonicalName());
+            System.out.println("Bean Name : " + beanName);
         }
     }
 }
