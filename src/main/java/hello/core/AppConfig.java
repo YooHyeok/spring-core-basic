@@ -20,27 +20,6 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     /**
-     * MemberReopsotiry 역할 화 리팩토링 및 중복제거
-     * 객체 반환 메소드 생성
-     * @return MemoryMemberRepository
-     */
-    @Bean
-    public MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
-    }
-
-    /**
-     * DiscountPolicy 역할 화 리팩토링
-     * 객체 반환 메소드 생성
-     * @return Discount 할인정책 객체 반환 
-     */
-    @Bean(name = "discountPolicy") // Bean객체 이름 변경 가능
-    public DiscountPolicy discountPolicy() {
-//        return new FixDiscountPolicy(); // 고정
-        return new RateDiscountPolicy();
-    }
-    
-    /**
      * DIP
      * MemberService 구현 객체 반환
      * @return MemoryDB를 주입한 MemberServiceImpl 객체 반환
@@ -60,5 +39,25 @@ public class AppConfig {
     public OrderService orderService() {
 //        return new OrderServiceImpl(new MemoryMemberRepository(), new RateDiscountPolicy());
         return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+    /**
+     * MemberReopsotiry 역할 화 리팩토링 및 중복제거
+     * 객체 반환 메소드 생성
+     * @return MemoryMemberRepository
+     */
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    /**
+     * DiscountPolicy 역할 화 리팩토링
+     * 객체 반환 메소드 생성
+     * @return Discount 할인정책 객체 반환
+     */
+    @Bean(name = "discountPolicy") // Bean객체 이름 변경 가능
+    public DiscountPolicy discountPolicy() {
+//        return new FixDiscountPolicy(); // 고정
+        return new RateDiscountPolicy();
     }
 }
