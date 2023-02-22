@@ -42,6 +42,7 @@ public class ApplicationContextInfoTest {
         }
     }
     /**
+     * entrySet 사용
      * @Component 빈만 출력하기.
      */
     @Test
@@ -52,8 +53,23 @@ public class ApplicationContextInfoTest {
         for (Map.Entry<String, Object> entryBean : beansWithAnnotation.entrySet()) { // map의  key와 value를 가지는 Set 객체를 리턴
             String beanName = entryBean.getKey();
             Object beanObject = entryBean.getValue();
-            System.out.println("Class : " + beanObject.getClass().getCanonicalName());
-            System.out.println("Bean Name : " + beanName);
+            System.out.println("name : " + beanName);
+            System.out.println("Object : " + beanObject.getClass().getCanonicalName());
         }
+    }
+
+    /**
+     * forEach 사용
+     * @Component 빈만 출력하기.
+     */
+    @Test
+    @DisplayName("컴포넌트 빈 출력하기2")
+    void findComponentBean2() {
+        String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+        Map<String, Object> beansWithAnnotation = ac.getBeansWithAnnotation(Component.class);// beanDefinition : 빈에대한 메타데이터 정보
+        beansWithAnnotation.forEach((key, value) -> {
+            System.out.println("name = " + key);
+            System.out.println("Object = " + value);
+        });
     }
 }
