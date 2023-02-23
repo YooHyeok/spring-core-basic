@@ -23,4 +23,14 @@ public class OrderServiceImpl implements OrderService {
         int discountPrice = discountPolicy.discount(member, itemPrice); // 할인 금액
         return new Order(memberId, itemName, itemPrice, discountPrice); // 주문 정보 반환
     }
+
+    /**
+     * <p>싱글톤 테스트 용도</p>
+     * @return memberRepository
+     * @Return MemoryMemberRepository
+     * @Description memberRepository를 반환 -> MemoryMemberRepository인스턴스 반환
+     */
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }

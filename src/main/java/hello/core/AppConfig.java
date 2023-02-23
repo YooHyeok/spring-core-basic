@@ -27,6 +27,7 @@ public class AppConfig {
     @Bean("memberService") // Bean객체 이름 변경 가능
     public MemberService memberService() { // 다형성 : MemberServiceImpl 클래스는 MeberService 인터페이스를 상속받았다.
 //        return new MemberServiceImpl(new MemoryMemberRepository());
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
@@ -38,6 +39,7 @@ public class AppConfig {
     @Bean
     public OrderService orderService() {
 //        return new OrderServiceImpl(new MemoryMemberRepository(), new RateDiscountPolicy());
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
     /**
@@ -47,6 +49,7 @@ public class AppConfig {
      */
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
