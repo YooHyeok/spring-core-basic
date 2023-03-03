@@ -1,8 +1,5 @@
 package hello.core;
 
-import hello.core.member.MemberRepository;
-import hello.core.member.MemoryMemberRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -23,8 +20,8 @@ public class AutoAppConfig {
      * Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
      * @return
      */
-    @Bean(name="memoryMemberRepository") //수동 등록 빈 네임이 중복될경우 수동등록 빈
+/*    @Bean(name="memoryMemberRepository") //수동 등록 빈 네임이 중복될경우 수동등록 빈
     MemberRepository memberRepository () {
         return new MemoryMemberRepository();
-    }
+    }*/
 }
