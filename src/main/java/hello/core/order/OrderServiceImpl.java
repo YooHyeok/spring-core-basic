@@ -1,6 +1,7 @@
 package hello.core.order;
 
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -18,7 +19,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired //@Component - AutoAppConfig의 @ComponentSacn을 위해 선언
 //    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("fixDiscountPolicy") DiscountPolicy discountPolicy) {
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) { //@Primary로 RateDiscountPolicy를 우선순위로 주입한다.
+//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) { //@Primary로 RateDiscountPolicy를 우선순위로 주입한다.
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
