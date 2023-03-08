@@ -4,11 +4,11 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor // Line 19의 @Autowired 생성자 주입 생성자를 대신해서 만들어준다.
+//@RequiredArgsConstructor // Line 19의 @Autowired 생성자 주입 생성자를 대신해서 만들어준다.
 public class OrderServiceImpl implements OrderService {
 //    private final MemberRepository memberRepository = new MemoryMemberRepository(); //MemoryDB DI 주입
 //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy(); //고정할인정책 DI 주입
@@ -16,11 +16,12 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository; //MemoryDB DI 주입
     private final DiscountPolicy discountPolicy; // interface 추상화에만 의존
 
-     /*@Autowired //@Component - AutoAppConfig의 @ComponentSacn을 위해 선언
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    @Autowired //@Component - AutoAppConfig의 @ComponentSacn을 위해 선언
+//    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("fixDiscountPolicy") DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) { //@Primary로 RateDiscountPolicy를 우선순위로 주입한다.
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
-    }*/
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
