@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,7 +58,8 @@ public class SingletonWithPrototypeTest1 {
     }
 
     /**
-     *
+     * javax.inject - provider
+     * JSR-330 자바표준 - 스프링이 아닌 다른 컨테이너에서도 사용이 가능하다.
      */
     @Test
     void singletonClientUserPrototype3() {
@@ -76,7 +78,8 @@ public class SingletonWithPrototypeTest1 {
         private final PrototypeBean prototypeBean; //ClientBean의 생성 시점에 주입된다.
         private final ApplicationContext ac; // 스프링 컨테이너 주입
         private final ObjectFactory<PrototypeBean> prototypeBeanFactory; // DependencyLookup 스프링컨테이너에 요청해서 빈을 반환해준다.
-        private final ObjectProvider<PrototypeBean> prototypeBeanProvider; // ObjectFactory에 편의기능을 추가한 구현체
+        private final ObjectProvider<PrototypeBean> prototypeBeanProvider; // DependencyLookup ObjectFactory에 편의기능을 추가한 구현체
+        private final Provider<PrototypeBean> provider; // DependencyLookup javax.inject - provider JSR-330 자바표준
         public int singletonLogic() {
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
@@ -88,8 +91,14 @@ public class SingletonWithPrototypeTest1 {
             int count = prototypeBean.getCount();
             return count;
         }
-        public int providerLogic() {
+        public int objectproviderLogic() {
             PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            prototypeBean.addCount();
+            int count = prototypeBean.getCount();
+            return count;
+        }
+        public int providerLogic() {
+            PrototypeBean prototypeBean = provider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
