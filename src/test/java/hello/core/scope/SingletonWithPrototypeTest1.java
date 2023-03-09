@@ -2,6 +2,8 @@ package hello.core.scope;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -39,6 +41,10 @@ public class SingletonWithPrototypeTest1 {
         assertThat(logic2).isEqualTo(2);
     }
 
+    /**
+     * ApplicationContext 의존성 주입 테스트
+     * 단점 : 스프링 컨테이너에 종속적이게 된다.
+     */
     @Test
     void singletonClientUserPrototype2() {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
@@ -47,15 +53,30 @@ public class SingletonWithPrototypeTest1 {
         assertThat(logic1).isEqualTo(1);
         ClientBean clientBean2 = ac.getBean(ClientBean.class); // Singleton에 의해 처음 생성 시점에 주입되었던 빈을 그대로 사용
         int logic2 = clientBean2.prototypeLogic();
-        assertThat(logic2).isEqualTo(1);
+        assertThat(logic1).isEqualTo(1);
     }
 
+    /**
+     *
+     */
+    @Test
+    void singletonClientUserPrototype3() {
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
+        ClientBean clientBean1 = ac.getBean(ClientBean.class);
+        int logic1 = clientBean1.providerLogic();
+        assertThat(logic1).isEqualTo(1);
+        ClientBean clientBean2 = ac.getBean(ClientBean.class); // Singleton에 의해 처음 생성 시점에 주입되었던 빈을 그대로 사용
+        int logic2 = clientBean2.providerLogic();
+        assertThat(logic1).isEqualTo(1);
+    }
 
     @RequiredArgsConstructor // final field constructor Dependency Injection
     @Scope("singleton")
     static class ClientBean {
         private final PrototypeBean prototypeBean; //ClientBean의 생성 시점에 주입된다.
-        private final ApplicationContext ac;
+        private final ApplicationContext ac; // 스프링 컨테이너 주입
+        private final ObjectFactory<PrototypeBean> prototypeBeanFactory; // DependencyLookup 스프링컨테이너에 요청해서 빈을 반환해준다.
+        private final ObjectProvider<PrototypeBean> prototypeBeanProvider; // ObjectFactory에 편의기능을 추가한 구현체
         public int singletonLogic() {
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
@@ -63,6 +84,12 @@ public class SingletonWithPrototypeTest1 {
         }
         public int prototypeLogic() {
             PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+            prototypeBean.addCount();
+            int count = prototypeBean.getCount();
+            return count;
+        }
+        public int providerLogic() {
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
