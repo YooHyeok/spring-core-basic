@@ -29,6 +29,7 @@ dependencies {
 	// Lombok 라이브러리 추가 끝
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation('javax.inject:javax.inject:1') //JSR-330 provider 기능
 }
 
 tasks.named('test') {
